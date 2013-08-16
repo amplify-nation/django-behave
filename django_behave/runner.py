@@ -5,8 +5,9 @@ import unittest
 from pdb import set_trace
 from os.path import dirname, abspath, basename, join, isdir
 
-from django.test.simple import DjangoTestSuiteRunner, reorder_suite
+from django.test.simple import DjangoTestSuiteRunner #, reorder_suite
 from django.test import LiveServerTestCase
+from django.test.runner import reorder_suite
 from django.db.models import get_app
 
 from behave.configuration import Configuration, ConfigError
@@ -42,7 +43,7 @@ class DjangoBehaveTestCase(LiveServerTestCase):
         unittest.TestCase.__init__(self)
 
     def get_features_dir(self):
-        if isinstance(self.features_dir, basestring):
+        if isinstance(self.features_dir, str):
             return [self.features_dir]
         return self.features_dir
 
@@ -75,9 +76,9 @@ class DjangoBehaveTestCase(LiveServerTestCase):
         runner = Runner(self.behave_config)
         try:
             failed = runner.run()
-        except ParserError, e:
+        except ParserError as e:
             sys.exit(str(e))
-        except ConfigError, e:
+        except ConfigError as e:
             sys.exit(str(e))
 
         if self.behave_config.show_snippets and runner.undefined:
@@ -133,7 +134,7 @@ class DjangoBehaveTestSuiteRunner(DjangoTestSuiteRunner):
         # always get all features for given apps (for convenience)
         for label in test_labels:
             if '.' in label:
-                print "Ignoring label with dot in: " % label
+                print ("Ignoring label with dot in: ", label)
                 continue
             app = get_app(label)
 
