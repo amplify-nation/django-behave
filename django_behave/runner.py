@@ -108,9 +108,9 @@ class DjangoBehaveTestCase(LiveServerTestCase):
         # end of from behave/__main__.py
 
 
-def make_test_suite(test_labels, **kwargs):
+def make_test_suite(test_labels, extra_tests=None, **kwargs):
     test_suite = DjangoTestSuiteRunner()
-    return test_suite.build_suite(test_labels, **kwargs)
+    return test_suite.build_suite(test_labels, extra_tests=extra_tests, **kwargs)
 
 
 class DjangoBehaveTestSuiteRunner(DjangoTestSuiteRunner):
@@ -125,7 +125,7 @@ class DjangoBehaveTestSuiteRunner(DjangoTestSuiteRunner):
         # Run Normal Django Test Suite
         #
 
-        std_test_suite = make_test_suite(test_labels, **kwargs)
+        std_test_suite = make_test_suite(test_labels, extra_tests=extra_tests, **kwargs)
         suite.addTest(std_test_suite)
 
         #
