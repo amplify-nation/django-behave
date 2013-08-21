@@ -108,22 +108,8 @@ class DjangoBehaveTestCase(LiveServerTestCase):
         # end of from behave/__main__.py
 
 
-from django.conf import settings
-
-
-# This class is used to ensure only our apps are tested
-class OurTestRunner(DjangoTestSuiteRunner):
-    def build_suite(self, test_labels,  **kwargs):
-        if not test_labels:
-            test_labels = [
-                app for app in settings.PROJECT_APPS]
-        # import pdb; pdb.set_trace()
-        return super(OurTestRunner, self)\
-            .build_suite(test_labels, **kwargs)
-
-
 def make_test_suite(test_labels, **kwargs):
-    test_suite = OurTestRunner()
+    test_suite = DjangoTestSuiteRunner()
     return test_suite.build_suite(test_labels, **kwargs)
 
 
